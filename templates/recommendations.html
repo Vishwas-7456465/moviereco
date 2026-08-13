@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Personalized movie recommendations based on {{ movie_title }}.">
+    <title>Recommendations for {{ movie_title }} - Movie Recommender</title>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- Header / Navigation Bar -->
+    <header>
+        <nav class="navbar" id="navbar">
+            <a href="{{ url_for('home') }}" class="logo" id="nav-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+                    <line x1="7" y1="2" x2="7" y2="22"></line>
+                    <line x1="17" y1="2" x2="17" y2="22"></line>
+                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                </svg>
+                Movie<span>Recommender</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('home') }}" id="nav-home">Home</a></li>
+                <li><a href="{{ url_for('about') }}" id="nav-about">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Selected Movie Details Profile -->
+        {% if selected_movie %}
+        <section class="selected-movie-section">
+            <div class="selected-movie-card">
+                <div class="selected-poster-wrapper">
+                    <img 
+                        src="{{ selected_movie.poster_url }}" 
+                        alt="{{ selected_movie.title }}" 
+                        class="selected-poster"
+                        onerror="handlePosterError(this, '{{ selected_movie.title }}')"
+                    >
+                </div>
+                <div class="selected-details">
+                    <span class="selected-badge">Selected Movie</span>
+                    <h3>{{ selected_movie.title }}</h3>
+                    <div class="selected-meta">
+                        <span class="card-year">{{ selected_movie.release_year }}</span>
+                        <span class="rating-badge">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                            {{ selected_movie.vote_average }} / 10
+                        </span>
+                    </div>
+                    <p class="selected-overview">{{ selected_movie.overview }}</p>
+                    <div class="selected-genres">
+                        {% for genre in selected_movie.genres.split(', ') %}
+                        <span class="genre-tag">{{ genre }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- Results Grid Header -->
+        <section class="results-header">
+            <h2>Recommended Movies Similar to <span>{{ movie_title }}</span></h2>
+        </section>
+
+        <!-- Movie Cards Grid -->
+        <section>
+            {% if recommendations %}
+            <div class="cards-grid" id="recommendations-grid">
+                {% for movie in recommendations %}
+                <div class="movie-card">
+                    <!-- Similarity Percentage Tag -->
+                    <span class="similarity-badge">{{ movie.similarity_score }}% Match</span>
+                    
+                    <!-- Poster Image Wrapper -->
+                    <div class="poster-wrapper">
+                        <img 
+                            src="{{ movie.poster_url }}" 
+                            alt="{{ movie.title }}" 
+                            class="movie-poster"
+                            loading="lazy"
+                            onerror="handlePosterError(this, '{{ movie.title }}')"
+                        >
+                    </div>
+                    
+                    <!-- Card Info Body -->
+                    <div class="card-info">
+                        <h4 class="card-title" title="{{ movie.title }}">{{ movie.title }}</h4>
+                        <div class="card-genres">
+                            {{ movie.genres }}
+                        </div>
+                        <div class="card-meta">
+                            <span class="card-year">{{ movie.release_year }}</span>
+                            <span class="card-rating">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                </svg>
+                                {{ movie.vote_average }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="error-alert">
+                <span>No recommendations found for this movie. Please try another one.</span>
+            </div>
+            {% endif %}
+        </section>
+        
+        <!-- Back to Search Action -->
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="{{ url_for('home') }}" class="btn-recommend" style="display: inline-flex; max-width: max-content;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Search Another Movie
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                Movie<span>Recommender</span>
+            </div>
+            <div>
+                &copy; 2026 Movie Recommendation System. College Mini Project.
+            </div>
+            <div class="footer-info">
+                Built with <strong>Flask, Pandas & Scikit-Learn</strong>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom Script -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

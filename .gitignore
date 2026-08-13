@@ -1,0 +1,4 @@
+python/
+uv.exe
+*.pyc
+__pycache__/
