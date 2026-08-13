@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Get personalized movie recommendations using content-based filtering. Built with Flask and Scikit-Learn.">
-    <title>Movie Recommendation System - Find Similar Movies</title>
+    <title>Cineverse - Premium Movie Discovery</title>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
@@ -14,18 +14,37 @@
     <header>
         <nav class="navbar" id="navbar">
             <a href="{{ url_for('home') }}" class="logo" id="nav-logo">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
-                    <line x1="7" y1="2" x2="7" y2="22"></line>
-                    <line x1="17" y1="2" x2="17" y2="22"></line>
-                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                    <path d="M15 4v8h4.085c.348 0 .684-.143.92-.396l2.6-2.77c.484-.515.484-1.345 0-1.86l-2.6-2.77c-.236-.253-.572-.396-.92-.396H15z" opacity="0.3"></path>
+                    <rect x="2" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                    <circle cx="6" cy="8" r="1.5" fill="var(--bg-surface)"></circle>
+                    <circle cx="11" cy="8" r="1.5" fill="var(--bg-surface)"></circle>
                 </svg>
-                Movie<span>Recommender</span>
+                Cineverse
             </a>
+            
             <ul class="nav-links">
                 <li class="active"><a href="{{ url_for('home') }}" id="nav-home">Home</a></li>
-                <li><a href="{{ url_for('about') }}" id="nav-about">About</a></li>
+                <li><a href="#" id="nav-explore">Explore</a></li>
+                <li><a href="#" id="nav-top">Top Rated</a></li>
+                <li><a href="#" id="nav-community">Community</a></li>
             </ul>
+
+            <div class="nav-actions">
+                <div class="profile">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    Profile
+                </div>
+                <div class="notifications">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                </div>
+            </div>
         </nav>
     </header>
 
@@ -33,51 +52,129 @@
     <main>
         <!-- Hero Section -->
         <section class="hero">
-            <h1>Find Your Next <span>Favorite Movie</span></h1>
-            <p>Enter a movie you like, and we'll recommend 10 similar movies based on genres and plot summaries using Content-Based Filtering.</p>
-            
-            <!-- Search Form -->
-            <div class="search-wrapper">
-                <form id="search-form" action="{{ url_for('recommend') }}" method="GET" class="search-box">
-                    <div class="search-input-container">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                        </svg>
-                        <input 
-                            type="text" 
-                            id="movie-search" 
-                            name="movie" 
-                            class="search-input" 
-                            placeholder="Type a movie title (e.g. Inception, Avatar, Se7en...)" 
-                            autocomplete="off" 
-                            required
-                        >
-                    </div>
-                    <button type="submit" id="recommend-btn" class="btn-recommend">
-                        Recommend
-                    </button>
-                </form>
+            <div class="hero-content animate-fade-up">
+                <h1>Experience Movies Like Never Before</h1>
+                <p>Welcome to Cineverse. Enter a movie you love, and our AI-powered engine will instantly discover cinematic gems perfectly tailored to your taste.</p>
                 
-                <!-- Autocomplete Dropdown List -->
-                <ul id="suggestions" class="suggestions-list"></ul>
-            </div>
-            
-            <!-- Error Alert -->
-            {% if error %}
-            <div class="error-alert" id="error-alert">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="12" y1="8" x2="12" y2="12"></line>
-                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                </svg>
-                <span>{{ error }}</span>
-            </div>
-            {% endif %}
+                <!-- Search Form -->
+                <div class="search-wrapper delay-200 animate-fade-up">
+                    <form id="search-form" action="{{ url_for('recommend') }}" method="GET" class="search-box">
+                        <div class="search-input-container">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                            <input 
+                                type="text" 
+                                id="movie-search" 
+                                name="movie" 
+                                class="search-input" 
+                                placeholder="Search for movies, genres, actors..." 
+                                autocomplete="off" 
+                                required
+                            >
+                        </div>
+                        <button type="submit" id="recommend-btn" class="btn-recommend">
+                            Discover
+                        </button>
+                    </form>
+                    
+                    <!-- Autocomplete Dropdown List -->
+                    <ul id="suggestions" class="suggestions-list"></ul>
+                </div>
+                
+                <!-- Error Alert -->
+                {% if error %}
+                <div class="error-alert animate-fade-up delay-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    <span>{{ error }}</span>
+                </div>
+                {% endif %}
 
-            <!-- Loading Spinner -->
-            <div class="spinner-container" id="spinner-container">
-                <div class="spinner"></div>
+                <!-- Loading Spinner -->
+                <div class="spinner-container" id="spinner-container">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Optional Showcase Grid placeholder for Home page depth -->
+        <section class="results-container">
+            <h2 class="section-title">Explore Top Rated & Trending Movies</h2>
+            <div class="cards-grid">
+                <!-- Static placeholder cards to simulate the Cineverse layout on home page -->
+                <!-- These would normally be populated dynamically -->
+                <div class="movie-card">
+                    <div class="poster-wrapper">
+                        <img src="https://image.tmdb.org/t/p/w500/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg" alt="Dune" class="movie-poster">
+                    </div>
+                    <div class="card-info">
+                        <h3 class="card-title">Dune</h3>
+                        <div class="card-genres">Sci-Fi | Adventure</div>
+                        <div class="card-meta">
+                            <span class="card-year">2021</span>
+                            <span class="card-rating">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                8.0
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="movie-card">
+                    <div class="poster-wrapper">
+                        <img src="https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg" alt="Oppenheimer" class="movie-poster">
+                    </div>
+                    <div class="card-info">
+                        <h3 class="card-title">Oppenheimer</h3>
+                        <div class="card-genres">Drama | History</div>
+                        <div class="card-meta">
+                            <span class="card-year">2023</span>
+                            <span class="card-rating">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                8.3
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="movie-card">
+                    <div class="poster-wrapper">
+                        <img src="https://image.tmdb.org/t/p/w500/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg" alt="Avengers: Infinity War" class="movie-poster">
+                    </div>
+                    <div class="card-info">
+                        <h3 class="card-title">Avengers: Infinity War</h3>
+                        <div class="card-genres">Action | Sci-Fi</div>
+                        <div class="card-meta">
+                            <span class="card-year">2018</span>
+                            <span class="card-rating">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                8.3
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="movie-card">
+                    <div class="poster-wrapper">
+                        <img src="https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MvrIdZJ6.jpg" alt="Interstellar" class="movie-poster">
+                    </div>
+                    <div class="card-info">
+                        <h3 class="card-title">Interstellar</h3>
+                        <div class="card-genres">Adventure | Drama | Sci-Fi</div>
+                        <div class="card-meta">
+                            <span class="card-year">2014</span>
+                            <span class="card-rating">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                8.6
+                            </span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
@@ -86,13 +183,17 @@
     <footer>
         <div class="footer-content">
             <div class="footer-logo">
-                Movie<span>Recommender</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                    <path d="M15 4v8h4.085c.348 0 .684-.143.92-.396l2.6-2.77c.484-.515.484-1.345 0-1.86l-2.6-2.77c-.236-.253-.572-.396-.92-.396H15z" opacity="0.3"></path>
+                    <rect x="2" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                </svg>
+                Cineverse
             </div>
             <div>
-                &copy; 2026 Movie Recommendation System. College Mini Project.
+                &copy; 2026 Cineverse Platform. All rights reserved.
             </div>
             <div class="footer-info">
-                Built with <strong>Flask, Pandas & Scikit-Learn</strong>
+                Built with <strong>Flask & Scikit-Learn</strong>
             </div>
         </div>
     </footer>

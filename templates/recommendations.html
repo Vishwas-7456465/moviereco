@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Personalized movie recommendations based on {{ movie_title }}.">
-    <title>Recommendations for {{ movie_title }} - Movie Recommender</title>
+    <title>Recommendations for {{ movie_title }} - Cineverse</title>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
@@ -14,18 +14,37 @@
     <header>
         <nav class="navbar" id="navbar">
             <a href="{{ url_for('home') }}" class="logo" id="nav-logo">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
-                    <line x1="7" y1="2" x2="7" y2="22"></line>
-                    <line x1="17" y1="2" x2="17" y2="22"></line>
-                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                    <path d="M15 4v8h4.085c.348 0 .684-.143.92-.396l2.6-2.77c.484-.515.484-1.345 0-1.86l-2.6-2.77c-.236-.253-.572-.396-.92-.396H15z" opacity="0.3"></path>
+                    <rect x="2" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                    <circle cx="6" cy="8" r="1.5" fill="var(--bg-surface)"></circle>
+                    <circle cx="11" cy="8" r="1.5" fill="var(--bg-surface)"></circle>
                 </svg>
-                Movie<span>Recommender</span>
+                Cineverse
             </a>
+            
             <ul class="nav-links">
                 <li><a href="{{ url_for('home') }}" id="nav-home">Home</a></li>
-                <li><a href="{{ url_for('about') }}" id="nav-about">About</a></li>
+                <li><a href="#" id="nav-explore">Explore</a></li>
+                <li><a href="#" id="nav-top">Top Rated</a></li>
+                <li><a href="#" id="nav-community">Community</a></li>
             </ul>
+
+            <div class="nav-actions">
+                <div class="profile">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    Profile
+                </div>
+                <div class="notifications">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                </div>
+            </div>
         </nav>
     </header>
 
@@ -33,8 +52,8 @@
     <main>
         <!-- Selected Movie Details Profile -->
         {% if selected_movie %}
-        <section class="selected-movie-section">
-            <div class="selected-movie-card">
+        <section class="selected-movie-section" style="padding-top: 10rem;">
+            <div class="selected-movie-card animate-fade-up">
                 <div class="selected-poster-wrapper">
                     <img 
                         src="{{ selected_movie.poster_url }}" 
@@ -66,66 +85,73 @@
         </section>
         {% endif %}
 
-        <!-- Results Grid Header -->
-        <section class="results-header">
-            <h2>Recommended Movies Similar to <span>{{ movie_title }}</span></h2>
-        </section>
-
-        <!-- Movie Cards Grid -->
-        <section>
-            {% if recommendations %}
-            <div class="cards-grid" id="recommendations-grid">
-                {% for movie in recommendations %}
-                <div class="movie-card">
-                    <!-- Similarity Percentage Tag -->
-                    <span class="similarity-badge">{{ movie.similarity_score }}% Match</span>
-                    
-                    <!-- Poster Image Wrapper -->
-                    <div class="poster-wrapper">
-                        <img 
-                            src="{{ movie.poster_url }}" 
-                            alt="{{ movie.title }}" 
-                            class="movie-poster"
-                            loading="lazy"
-                            onerror="handlePosterError(this, '{{ movie.title }}')"
-                        >
-                    </div>
-                    
-                    <!-- Card Info Body -->
-                    <div class="card-info">
-                        <h4 class="card-title" title="{{ movie.title }}">{{ movie.title }}</h4>
-                        <div class="card-genres">
-                            {{ movie.genres }}
+        <div class="results-container" style="padding-top: 2rem;">
+            <!-- Results Grid Header -->
+            <div class="results-header animate-fade-up delay-200">
+                <h2>Similar to <span>{{ movie_title }}</span></h2>
+            </div>
+    
+            <!-- Movie Cards Grid -->
+            <section>
+                {% if recommendations %}
+                <div class="cards-grid" id="recommendations-grid">
+                    {% for movie in recommendations %}
+                    <div class="movie-card">
+                        <!-- Similarity Percentage Tag -->
+                        <span class="similarity-badge">{{ movie.similarity_score }}% Match</span>
+                        
+                        <!-- Poster Image Wrapper -->
+                        <div class="poster-wrapper">
+                            <img 
+                                src="{{ movie.poster_url }}" 
+                                alt="{{ movie.title }}" 
+                                class="movie-poster"
+                                loading="lazy"
+                                onerror="handlePosterError(this, '{{ movie.title }}')"
+                            >
                         </div>
-                        <div class="card-meta">
-                            <span class="card-year">{{ movie.release_year }}</span>
-                            <span class="card-rating">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                </svg>
-                                {{ movie.vote_average }}
-                            </span>
+                        
+                        <!-- Card Info Body -->
+                        <div class="card-info">
+                            <h4 class="card-title" title="{{ movie.title }}">{{ movie.title }}</h4>
+                            <div class="card-genres">
+                                {{ movie.genres }}
+                            </div>
+                            <div class="card-meta">
+                                <span class="card-year">{{ movie.release_year }}</span>
+                                <span class="card-rating">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                    </svg>
+                                    {{ movie.vote_average }}
+                                </span>
+                            </div>
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
+                {% else %}
+                <div class="error-alert animate-fade-up">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    <span>No recommendations found for this movie. Please try another one.</span>
+                </div>
+                {% endif %}
+            </section>
+            
+            <!-- Back to Search Action -->
+            <div style="text-align: center; margin-top: 4rem;" class="animate-fade-up delay-300">
+                <a href="{{ url_for('home') }}" class="btn-recommend" style="display: inline-flex; max-width: max-content;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Discover More
+                </a>
             </div>
-            {% else %}
-            <div class="error-alert">
-                <span>No recommendations found for this movie. Please try another one.</span>
-            </div>
-            {% endif %}
-        </section>
-        
-        <!-- Back to Search Action -->
-        <div style="text-align: center; margin-top: 3rem;">
-            <a href="{{ url_for('home') }}" class="btn-recommend" style="display: inline-flex; max-width: max-content;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-                Search Another Movie
-            </a>
         </div>
     </main>
 
@@ -133,13 +159,17 @@
     <footer>
         <div class="footer-content">
             <div class="footer-logo">
-                Movie<span>Recommender</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                    <path d="M15 4v8h4.085c.348 0 .684-.143.92-.396l2.6-2.77c.484-.515.484-1.345 0-1.86l-2.6-2.77c-.236-.253-.572-.396-.92-.396H15z" opacity="0.3"></path>
+                    <rect x="2" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                </svg>
+                Cineverse
             </div>
             <div>
-                &copy; 2026 Movie Recommendation System. College Mini Project.
+                &copy; 2026 Cineverse Platform. All rights reserved.
             </div>
             <div class="footer-info">
-                Built with <strong>Flask, Pandas & Scikit-Learn</strong>
+                Built with <strong>Flask & Scikit-Learn</strong>
             </div>
         </div>
     </footer>

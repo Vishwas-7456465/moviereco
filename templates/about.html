@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Learn about the algorithms and technology stack behind this Movie Recommendation System.">
-    <title>About - Movie Recommendation System</title>
+    <title>About Cineverse Platform</title>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
@@ -14,79 +13,95 @@
     <header>
         <nav class="navbar" id="navbar">
             <a href="{{ url_for('home') }}" class="logo" id="nav-logo">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
-                    <line x1="7" y1="2" x2="7" y2="22"></line>
-                    <line x1="17" y1="2" x2="17" y2="22"></line>
-                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                    <path d="M15 4v8h4.085c.348 0 .684-.143.92-.396l2.6-2.77c.484-.515.484-1.345 0-1.86l-2.6-2.77c-.236-.253-.572-.396-.92-.396H15z" opacity="0.3"></path>
+                    <rect x="2" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                    <circle cx="6" cy="8" r="1.5" fill="var(--bg-surface)"></circle>
+                    <circle cx="11" cy="8" r="1.5" fill="var(--bg-surface)"></circle>
                 </svg>
-                Movie<span>Recommender</span>
+                Cineverse
             </a>
+            
             <ul class="nav-links">
                 <li><a href="{{ url_for('home') }}" id="nav-home">Home</a></li>
-                <li class="active"><a href="{{ url_for('about') }}" id="nav-about">About</a></li>
+                <li><a href="#" id="nav-explore">Explore</a></li>
+                <li><a href="#" id="nav-top">Top Rated</a></li>
+                <li><a href="#" id="nav-community">Community</a></li>
             </ul>
+
+            <div class="nav-actions">
+                <div class="profile">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    Profile
+                </div>
+            </div>
         </nav>
     </header>
 
     <!-- Main Content -->
     <main>
-        <section class="about-card">
-            <h2>About the Project</h2>
-            <p>This <strong>Movie Recommendation System</strong> is a full-stack web application designed to recommend movies based on a user's tastes. It uses machine learning algorithms to compute similarity between movies based on their metadata (genres and plot summaries).</p>
+        <div class="about-card animate-fade-up">
+            <h2>About Cineverse</h2>
+            <p>
+                Cineverse is a premium, AI-powered movie discovery platform designed to give you the most accurate and personalized movie recommendations. We believe that finding a great movie should be an immersive experience, not just a list of links.
+            </p>
             
-            <h3>How It Works</h3>
-            <p>The system utilizes <strong>Content-Based Filtering</strong>, a recommendation strategy where the system makes recommendations based on the item's properties (content) rather than user behaviors (collaborative filtering).</p>
-            
+            <h3>How It Works (Content-Based Filtering)</h3>
+            <p>
+                Our recommendation engine analyzes the underlying content and metadata of movies to find incredible matches. When you search for a movie, the system:
+            </p>
             <ul>
-                <li><strong>Text Feature Extraction:</strong> The genres and overview text for each movie are combined to create a rich description of the movie's content.</li>
-                <li><strong>TF-IDF Vectorization:</strong> The Term Frequency-Inverse Document Frequency (TF-IDF) Vectorizer translates this text content into a mathematical vector representation, representing the importance of words relative to the entire dataset.</li>
-                <li><strong>Cosine Similarity:</strong> Pairwise similarity scores are calculated between all movie vectors. Cosine similarity calculates the cosine of the angle between two multi-dimensional vectors, yielding a score between 0 (completely different) and 1 (identical).</li>
-                <li><strong>Retrieval:</strong> When you search a movie, the system queries the similarity matrix, extracts the top 10 movies with the highest similarity scores, and presents them sorted by match percentage.</li>
+                <li>Extracts features like genres and plot overview.</li>
+                <li>Converts the textual data into numerical feature vectors using <strong>TF-IDF</strong> (Term Frequency-Inverse Document Frequency).</li>
+                <li>Calculates the <strong>Cosine Similarity</strong> between your chosen movie and thousands of others in our database.</li>
+                <li>Ranks and presents the top 10 most mathematically similar movies to your taste.</li>
             </ul>
 
             <h3>Technology Stack</h3>
             <div class="tech-grid">
-                <div class="tech-card">
-                    <h4>Python Flask</h4>
-                    <p>Web framework powering the backend routes and serving templates.</p>
+                <div class="tech-card delay-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 12px;"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    <h4>Backend Engine</h4>
+                    <p>Python Flask serves our lightweight, high-performance API.</p>
                 </div>
-                <div class="tech-card">
-                    <h4>Pandas & NumPy</h4>
-                    <p>Data science libraries used for loading, cleaning, and indexing CSV datasets.</p>
+                <div class="tech-card delay-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 12px;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <h4>Machine Learning</h4>
+                    <p>Scikit-Learn & Pandas process and vectorize our movie dataset in real-time.</p>
                 </div>
-                <div class="tech-card">
-                    <h4>Scikit-Learn</h4>
-                    <p>Machine learning library supplying TF-IDF Vectorizer and Cosine Similarity.</p>
-                </div>
-                <div class="tech-card">
-                    <h4>HTML, CSS & JS</h4>
-                    <p>Clean vanilla styling with micro-animations and AJAX autocomplete features.</p>
+                <div class="tech-card delay-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--primary-hover)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 12px;"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                    <h4>Cineverse UI</h4>
+                    <p>Custom HTML5, CSS3, and JavaScript featuring fluid motion and glassmorphism.</p>
                 </div>
             </div>
-
-            <h3>Key Features</h3>
-            <ul>
-                <li>Content-based text filtering using TF-IDF and Cosine Similarity.</li>
-                <li>Search autocomplete with real-time suggestion list fed by backend API.</li>
-                <li>Responsive card layout displaying movie posters, titles, genres, ratings, and release years.</li>
-                <li>Visual loading spinner during page transitions.</li>
-                <li>Robust poster fallback logic that generates beautiful custom SVG/CSS placeholders if image loading fails.</li>
-            </ul>
-        </section>
+            
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="{{ url_for('home') }}" class="btn-recommend" style="display: inline-flex; max-width: max-content;">
+                    Return Home
+                </a>
+            </div>
+        </div>
     </main>
 
     <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div class="footer-logo">
-                Movie<span>Recommender</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                    <path d="M15 4v8h4.085c.348 0 .684-.143.92-.396l2.6-2.77c.484-.515.484-1.345 0-1.86l-2.6-2.77c-.236-.253-.572-.396-.92-.396H15z" opacity="0.3"></path>
+                    <rect x="2" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                </svg>
+                Cineverse
             </div>
             <div>
-                &copy; 2026 Movie Recommendation System. College Mini Project.
+                &copy; 2026 Cineverse Platform. All rights reserved.
             </div>
             <div class="footer-info">
-                Built with <strong>Flask, Pandas & Scikit-Learn</strong>
+                Built with <strong>Flask & Scikit-Learn</strong>
             </div>
         </div>
     </footer>
